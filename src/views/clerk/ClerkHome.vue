@@ -30,6 +30,8 @@
         <div class="content">
           <OrderList :btnName="() => '详细信息'" :orders="orders2"
              :btnCallback = "orderInfo" />
+          <a-modal v-model="visible" title="详细信息"
+          :footer="null" destroyOnClose><OrderDetail :order = 'order'/></a-modal>
         </div>
       </a-tab-pane>
       <a-tab-pane key="3">
@@ -45,12 +47,15 @@
 
 <script>
 import OrderList from '@/components/clerk/OrderList'
+import OrderDetail from './OrderDetail'
 export default {
   name: 'clerk-home',
-  components: { OrderList },
+  components: { OrderList, OrderDetail },
   data () {
     return {
+      visible: false,
       headName: '订单',
+      order: {},
       orders1: [
         {
           carNumber: '1234',
@@ -79,12 +84,24 @@ export default {
         {
           carNumber: '1234',
           startTime: '12:23',
-          endTime: '15:35'
+          endTime: '15:35',
+          parkingLot: {
+            name: '金湾停车场'
+          },
+          parkingBoy: {
+            name: '张三'
+          }
         },
         {
           carNumber: '1234',
           startTime: '12:23',
-          endTime: '15:35'
+          endTime: '15:35',
+          parkingLot: {
+            name: '唐家停车场'
+          },
+          parkingBoy: {
+            name: '李四'
+          }
         }
       ]
     }
@@ -92,7 +109,10 @@ export default {
   methods: {
     getOrder (order) {},
     fetchCar (order) {},
-    orderInfo (order) {}
+    orderInfo (order) {
+      this.visible = true
+      this.order = order
+    }
   }
 }
 </script>
