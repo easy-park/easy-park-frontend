@@ -11,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: () => import('@/views/clerk/ClerkHome')
+    },
+    {
+      path: '/select',
+      name: 'select',
+      component: () => import('@/views/clerk/SelectParkingLot')
     }
   ]
 })
