@@ -13,6 +13,11 @@ export default new Router({
       component: () => import('@/views/clerk/ClerkHome')
     },
     {
+      path: '/select',
+      name: 'select',
+      component: () => import('@/views/clerk/SelectParkingLot')
+    },
+    {
       path: '/clerk/login',
       component: () => import('@/views/clerk/LogIn')
     }

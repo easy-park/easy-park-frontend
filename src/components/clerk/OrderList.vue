@@ -9,7 +9,9 @@
           车牌号：{{ order.carNumber }}
         </a-row>
         <a-row>
-          停车时间：{{ order.startTime }} - {{ order.endTime }}
+          停车时间：{{ order.startTime }}
+          <span v-if="order.endTime"> - </span>
+          {{ order.endTime }}
         </a-row>
       </a-col>
       <a-col align="center" :span="6">
