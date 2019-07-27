@@ -20,6 +20,16 @@ export default new Router({
     {
       path: '/clerk/login',
       component: () => import('@/views/clerk/LogIn')
+    },
+    {
+      path: '/clerk/home',
+      component: () => import('@/views/clerk/TitlePage'),
+      children: [
+        {
+          path: '/clerk/home',
+          component: () => import('@/views/clerk/ClerkHome')
+        }
+      ]
     }
   ]
 })

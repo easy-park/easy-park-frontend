@@ -9,9 +9,9 @@
           车牌号：{{ order.carNumber }}
         </a-row>
         <a-row>
-          停车时间：{{ order.startTime }}
+          停车时间：{{ order.startTime | toDate }}
           <span v-if="order.endTime"> - </span>
-          {{ order.endTime }}
+          {{ order.endTime | toDate }}
         </a-row>
       </a-col>
       <a-col align="center" :span="6">
@@ -23,12 +23,19 @@
 </template>
 
 <script>
+import { formatDate } from '@/util/datetime'
+
 export default {
   name: 'orderList',
   props: {
     btnCallback: Function,
     btnName: Function,
     orders: Array
+  },
+  filters: {
+    toDate (datetimeString) {
+      return datetimeString ? formatDate(new Date(datetimeString), 'MM-DD hh:mm') : ''
+    }
   }
 }
 </script>

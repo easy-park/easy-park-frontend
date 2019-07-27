@@ -48,6 +48,8 @@
 <script>
 import OrderList from '@/components/clerk/OrderList'
 import OrderDetail from './OrderDetail'
+import { loadAvailableOrder } from '@/api/clerk/clerk-home'
+
 export default {
   name: 'clerk-home',
   components: { OrderList, OrderDetail },
@@ -70,16 +72,7 @@ export default {
           status: '待取'
         }
       ],
-      orders: [
-        {
-          carNumber: '1234',
-          startTime: '12:23'
-        },
-        {
-          carNumber: '1234',
-          startTime: '12:23'
-        }
-      ],
+      orders: [],
       orders2: [
         {
           carNumber: '1234',
@@ -105,6 +98,13 @@ export default {
         }
       ]
     }
+  },
+  mounted () {
+    loadAvailableOrder({ status: 1 })
+      .then(res => {
+        this.orders = res.data
+      })
+      // todo catch
   },
   methods: {
     getOrder (order) {
