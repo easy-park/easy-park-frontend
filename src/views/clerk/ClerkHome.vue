@@ -48,7 +48,7 @@
 <script>
 import OrderList from '@/components/clerk/OrderList'
 import OrderDetail from './OrderDetail'
-import { loadAvailableOrder } from '@/api/clerk/clerk-home'
+import { loadAvailableOrders, loadHistoryOrders } from '@/api/clerk/clerk-home'
 
 export default {
   name: 'clerk-home',
@@ -100,9 +100,17 @@ export default {
     }
   },
   mounted () {
-    loadAvailableOrder({ status: 1 })
+    loadAvailableOrders()
       .then(res => {
-        this.orders = res.data
+        if (res.data.status === 200) {
+          this.orders = res.data.data
+        }
+      })
+    loadHistoryOrders()
+      .then(res => {
+        if (res.data.status === 200) {
+          this.orders2 = res.data.data
+        }
       })
       // todo catch
   },

@@ -1,13 +1,22 @@
 import { request } from '@/util/request'
 
-function loadAvailableOrder (params = { status: 1 }) {
+function loadAvailableOrders () {
   return request({
     url: 'parkingOrders',
     method: 'GET',
-    params
+    params: { status: 1 }
+  })
+}
+
+function loadHistoryOrders () {
+  return request({
+    url: 'parkingOrders',
+    method: 'GET',
+    params: { status: 6 }
   })
 }
 
 export {
-  loadAvailableOrder
+  loadAvailableOrders,
+  loadHistoryOrders
 }
