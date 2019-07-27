@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh 'systemctl stop nginx.service'
         sh 'rm  -rf /usr/share/nginx/html/*'
-        sh 'mv -f ./dist/* /usr/share/nginx/html/'
+        sh 'mv -f ./dist/ /usr/share/nginx/html/'
         sh 'systemctl start nginx.service'
       }
     }
