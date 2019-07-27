@@ -107,7 +107,9 @@ export default {
     }
   },
   methods: {
-    getOrder (order) {},
+    getOrder (order) {
+      this.$router.push('/select')
+    },
     fetchCar (order) {},
     orderInfo (order) {
       this.visible = true
