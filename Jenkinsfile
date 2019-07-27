@@ -15,5 +15,11 @@ pipeline {
         sh 'systemctl start nginx.service'
       }
     }
+	stage('deploy') {
+	  steps {
+		sh 'scp -i /root/.ssh/ooclserver_rsa -r ./dist root@39.98.52.38:/opt/vue-web/'
+		sh 'ssh -i /root/.ssh/ooclserver_rsa root@39.98.52.38: "cp -rf /opt/vue-web/dist/* /usr/share/nginx/html/"'
+	  }
+	}
   }
 }
