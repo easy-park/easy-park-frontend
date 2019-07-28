@@ -32,10 +32,11 @@ function fetchCar (id) {
   })
 }
 
-function setParkingBoyToOrder (id) {
+function setParkingBoyToOrder (order) {
   return request({
-    url: `parkingOrders/${id}`,
-    method: 'PUT'
+    url: 'parkingOrders',
+    method: 'PUT',
+    data: { id: order.id }
   })
 }
 

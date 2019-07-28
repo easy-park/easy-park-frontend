@@ -24,11 +24,10 @@ export default {
         })
     },
     getOrder (order) {
-      setParkingBoyToOrder(order.id)
+      setParkingBoyToOrder(order)
         .then(res => {
-          // nothing
+          this.$router.push(`/select/${order.id}`)
         })
-      this.$router.push(`/select/${order.id}`)
     }
   }
 }
