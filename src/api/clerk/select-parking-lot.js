@@ -10,7 +10,7 @@ function loadClerkParkingLots () {
 
 function receiptOrder (params) {
   return request({
-    url: 'parkingLots',
+    url: 'parkingOrders',
     method: 'GET',
     params
   })

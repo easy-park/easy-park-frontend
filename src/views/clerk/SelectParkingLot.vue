@@ -11,8 +11,9 @@
         <div style="margin-top: 30px">
           <a-select placeholder="选择停车场" style="width: 90%" size="large" defaultActiveFirstOption @change="onSelectChange">
             <a-select-option
-              v-for="parkingLot in parkingLots"
+              v-for="(parkingLot, index) in parkingLots"
               v-bind:key="parkingLot.id"
+              :value="index"
               :disabled="parkingLot.available <= 0">
               {{ `${parkingLot.name} (${parkingLot.available})` }}
             </a-select-option>
@@ -62,14 +63,15 @@ export default {
     goBack () {
       this.$router.back()
     },
-    onSelectChange (value) {
-      this.selectedParkingLot = value
+    onSelectChange (parkingLotIndex) {
+      this.selectedParkingLot = this.parkingLots[parkingLotIndex]
     },
     receiptOrder () {
       receiptOrder({
         parkingOrderId: this.$route.params.orderId,
         parkingLotId: this.selectedParkingLot.id
       }).then(res => {
+        this.order = res.data
         this.visible = true
       })
     },
