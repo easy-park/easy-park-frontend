@@ -20,8 +20,7 @@ function loadHistoryOrders () {
 function loadUnfinishedOrders () {
   return request({
     url: 'parkingOrders',
-    method: 'GET',
-    params: { parkingBoyId: '124' }
+    method: 'GET'
   })
 }
 

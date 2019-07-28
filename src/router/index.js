@@ -27,7 +27,7 @@ const router = new Router({
       ]
     },
     {
-      path: '/select',
+      path: '/select/:orderId',
       name: 'select',
       component: () => import('@/views/clerk/SelectParkingLot')
     },

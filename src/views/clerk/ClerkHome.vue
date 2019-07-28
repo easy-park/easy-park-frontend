@@ -1,7 +1,7 @@
 <template>
   <a-layout class="clerk-home">
     <a-row id="header">{{ headName }}</a-row>
-    <a-tabs class="tabs" :tabBarGutter="0" defaultActiveKey="0" tabPosition="bottom">
+    <a-tabs class="tabs" :tabBarGutter="0" defaultActiveKey="0" tabPosition="bottom" @tabClick="onTabClick">
       <a-tab-pane key="0">
         <div slot="tab" class="tab-slot">
           <a-icon type="home"/>
@@ -55,6 +55,10 @@ export default {
     return {
       visible: false,
       headName: '订单'
+    }
+  },
+  methods: {
+    onTabClick (key) {
     }
   }
 }

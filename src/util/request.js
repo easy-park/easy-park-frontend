@@ -7,9 +7,13 @@ const STATUS_SUCCESS = 200
 const instance = axios.create({
   baseURL: process.env.VUE_APP_REQUEST_BASE_URL,
   headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ` + Cookies.get('token')
+    ContentType: 'application/json'
   }
+})
+
+instance.interceptors.request.use(function (config) {
+  config.headers['Authorization'] = `Bearer ${Cookies.get('token')}`
+  return config
 })
 
 function request (options) {

@@ -9,10 +9,11 @@
 
 <script>
 import OrderList from '@/components/clerk/OrderList'
+import OrderDetail from './OrderDetail'
 import { loadHistoryOrders } from '@/api/clerk/clerk-home'
 
 export default {
-  components: { OrderList },
+  components: { OrderList, OrderDetail },
   data () {
     return {
       historyOrders: [],

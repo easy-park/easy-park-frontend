@@ -24,7 +24,7 @@ export default {
         })
     },
     getOrder (order) {
-      this.$router.push('/select')
+      this.$router.push(`/select/${order.id}`)
     }
   }
 }
