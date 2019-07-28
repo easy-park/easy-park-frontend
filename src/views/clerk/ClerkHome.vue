@@ -19,7 +19,7 @@
         </div>
         <div class="content">
           <OrderList :btnName="(order) => STATUS[order.status]" :orders="unfinishedOrders"
-             :btnCallback = "fetchCar" />
+             :btnCallback = "fetchCar" :parkingBoyStatus="parkingBoyStatus" />
         </div>
       </a-tab-pane>
       <a-tab-pane key="2">
@@ -48,7 +48,7 @@
 <script>
 import OrderList from '@/components/clerk/OrderList'
 import OrderDetail from './OrderDetail'
-import { loadAvailableOrders, loadHistoryOrders, loadUnfinishedOrders } from '@/api/clerk/clerk-home'
+import { loadAvailableOrders, loadHistoryOrders, loadUnfinishedOrders, fetchCar } from '@/api/clerk/clerk-home'
 import { STATUS } from '@/api/clerk/order-status'
 
 export default {
@@ -62,7 +62,8 @@ export default {
       unfinishedOrders: [],
       orders: [],
       historyOrders: [],
-      STATUS: STATUS
+      STATUS: STATUS,
+      parkingBoyStatus: 1
     }
   },
   mounted () {
@@ -77,6 +78,7 @@ export default {
     loadUnfinishedOrders()
       .then(res => {
         this.unfinishedOrders = res.data
+        this.parkingBoyStatus = res.data[0].parkingBoy.status
       })
       // todo catch
   },
@@ -84,7 +86,14 @@ export default {
     getOrder (order) {
       this.$router.push('/select')
     },
-    fetchCar (order) {},
+    fetchCar (order) {
+      const sure = confirm('确认取车？')
+      if (sure) {
+        fetchCar(order.id).then(res => {
+          this.parkingBoyStatus = res.data.parkingBoy.status
+        })
+      }
+    },
     orderInfo (order) {
       this.visible = true
       this.order = order
