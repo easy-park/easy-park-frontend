@@ -34,7 +34,9 @@
           <a-icon type="user"/>
           <span>我的</span>
         </div>
-        <div class="content" @click="$router.push('/clerk/login')">Content3</div>
+        <div class="content">
+          <clerk-profile></clerk-profile>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </a-layout>
@@ -44,10 +46,11 @@
 import PlacedOrderList from './PlacedOrderList'
 import ReceivedOrderList from './ReceivedOrderList'
 import HistoryOrderList from './HistoryOrderList'
+import ClerkProfile from './ClerkProfile'
 
 export default {
   name: 'clerk-home',
-  components: { PlacedOrderList, ReceivedOrderList, HistoryOrderList },
+  components: { PlacedOrderList, ReceivedOrderList, HistoryOrderList, ClerkProfile },
   data () {
     return {
       visible: false,
