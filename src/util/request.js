@@ -4,7 +4,7 @@ import { message } from 'ant-design-vue'
 const STATUS_SUCCESS = 200
 
 const instance = axios.create({
-  baseURL: 'http://47.92.227.24/parking/',
+  baseURL: process.env.VUE_APP_REQUEST_BASE_URL,
   headers: {
     ContentType: 'application/json'
   }

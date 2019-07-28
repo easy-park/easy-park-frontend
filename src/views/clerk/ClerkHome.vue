@@ -39,7 +39,7 @@
           <a-icon type="user"/>
           <span>我的</span>
         </div>
-        <div class="content">Content3</div>
+        <div class="content" @click="$router.push('/clerk/login')">Content3</div>
       </a-tab-pane>
     </a-tabs>
   </a-layout>
@@ -73,30 +73,7 @@ export default {
         }
       ],
       orders: [],
-      orders2: [
-        {
-          carNumber: '1234',
-          startTime: '12:23',
-          endTime: '15:35',
-          parkingLot: {
-            name: '金湾停车场'
-          },
-          parkingBoy: {
-            name: '张三'
-          }
-        },
-        {
-          carNumber: '1234',
-          startTime: '12:23',
-          endTime: '15:35',
-          parkingLot: {
-            name: '唐家停车场'
-          },
-          parkingBoy: {
-            name: '李四'
-          }
-        }
-      ]
+      orders2: []
     }
   },
   mounted () {

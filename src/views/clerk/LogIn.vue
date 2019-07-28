@@ -7,11 +7,10 @@
     <a-form-item>
       <a-input
         v-decorator="[
-          'userName',
+          'username',
           {
             rules: [
-              { required: true, message: '请输入手机号/邮箱' },
-              { message: '格式错误', validator: validateUserName }
+              { required: true, message: '请输入手机号/邮箱' }
             ]
           }
         ]"
@@ -52,6 +51,7 @@
 
 <script>
 import { EMAIL as EMAIL_REGEXP, MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
+import { login } from '@/api/clerk/login'
 
 export default {
   data () {
@@ -63,21 +63,31 @@ export default {
     this.form = this.$form.createForm(this)
   },
   methods: {
-    validateUserName (rule, value, callback) {
-      if (!value || new RegExp(EMAIL_REGEXP).test(value) || new RegExp(MOBOILE_PHONE_REGEXP).test(value)) {
-        callback()
-      } else {
-        callback(rule.message)
-      }
-    },
     handleSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           this.isLoading = true
-          setTimeout(() => {
-            this.isLoading = false
-          }, 2000)
+          const body = Object.assign({
+            username: undefined,
+            email: undefined,
+            phoneNumber: undefined,
+            password: undefined
+          }, values)
+          if (new RegExp(EMAIL_REGEXP).test(body.username)) {
+            body.email = body.username
+            body.username = undefined
+          } else if (new RegExp(MOBOILE_PHONE_REGEXP).test(body.username)) {
+            body.phoneNumber = body.username
+            body.username = undefined
+          }
+          login(body)
+            .then(res => {
+              this.$message.success('登录成功')
+            })
+            .finally(() => {
+              this.isLoading = false
+            })
         }
       })
     }
