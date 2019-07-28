@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { message } from 'ant-design-vue'
+
+const STATUS_SUCCESS = 200
 
 const instance = axios.create({
   baseURL: 'http://47.92.227.24/parking/',
@@ -7,6 +10,22 @@ const instance = axios.create({
   }
 })
 
+function request (options) {
+  return instance(options)
+    .then(res => {
+      const data = res.data
+      if (data.status === STATUS_SUCCESS) {
+        return data
+      }
+      return Promise.reject(data)
+    })
+    .catch(err => {
+      message.error('网络错误')
+      return err
+    })
+}
+
 export {
-  instance as request
+  instance as axios,
+  request
 }

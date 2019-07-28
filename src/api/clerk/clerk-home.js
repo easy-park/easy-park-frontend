@@ -1,10 +1,11 @@
 import { request } from '@/util/request'
+import { PLACED, COMPLETED } from './order-status'
 
 function loadAvailableOrders () {
   return request({
     url: 'parkingOrders',
     method: 'GET',
-    params: { status: 1 }
+    params: { status: PLACED }
   })
 }
 
@@ -12,7 +13,7 @@ function loadHistoryOrders () {
   return request({
     url: 'parkingOrders',
     method: 'GET',
-    params: { status: 6 }
+    params: { status: COMPLETED }
   })
 }
 

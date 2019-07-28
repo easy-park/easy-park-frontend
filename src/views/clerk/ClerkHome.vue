@@ -102,15 +102,11 @@ export default {
   mounted () {
     loadAvailableOrders()
       .then(res => {
-        if (res.data.status === 200) {
-          this.orders = res.data.data
-        }
+        this.orders = res.data
       })
     loadHistoryOrders()
       .then(res => {
-        if (res.data.status === 200) {
-          this.orders2 = res.data.data
-        }
+        this.orders2 = res.data
       })
       // todo catch
   },

@@ -64,8 +64,7 @@ export default {
   },
   methods: {
     validateUserName (rule, value, callback) {
-      if (new RegExp(EMAIL_REGEXP).test(value) || new RegExp(MOBOILE_PHONE_REGEXP).test(value)) {
-        console.log(value)
+      if (!value || new RegExp(EMAIL_REGEXP).test(value) || new RegExp(MOBOILE_PHONE_REGEXP).test(value)) {
         callback()
       } else {
         callback(rule.message)
