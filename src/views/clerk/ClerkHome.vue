@@ -18,7 +18,7 @@
           <span>取车</span>
         </div>
         <div class="content">
-          <OrderList :btnName="(order) => order.status" :orders="orders1"
+          <OrderList :btnName="(order) => STATUS[order.status]" :orders="unfinishedOrders"
              :btnCallback = "fetchCar" />
         </div>
       </a-tab-pane>
@@ -28,7 +28,7 @@
           <span>历史</span>
         </div>
         <div class="content">
-          <OrderList :btnName="() => '详细信息'" :orders="orders2"
+          <OrderList :btnName="() => '详细信息'" :orders="historyOrders"
              :btnCallback = "orderInfo" />
           <a-modal v-model="visible" title="详细信息"
           :footer="null" destroyOnClose><OrderDetail :order = 'order'/></a-modal>
@@ -48,7 +48,8 @@
 <script>
 import OrderList from '@/components/clerk/OrderList'
 import OrderDetail from './OrderDetail'
-import { loadAvailableOrders, loadHistoryOrders } from '@/api/clerk/clerk-home'
+import { loadAvailableOrders, loadHistoryOrders, loadUnfinishedOrders } from '@/api/clerk/clerk-home'
+import { STATUS } from '@/api/clerk/order-status'
 
 export default {
   name: 'clerk-home',
@@ -58,22 +59,10 @@ export default {
       visible: false,
       headName: '订单',
       order: {},
-      orders1: [
-        {
-          carNumber: '1234',
-          startTime: '12:23',
-          endTime: '',
-          status: '已停'
-        },
-        {
-          carNumber: '1234',
-          startTime: '12:23',
-          endTime: '',
-          status: '待取'
-        }
-      ],
+      unfinishedOrders: [],
       orders: [],
-      orders2: []
+      historyOrders: [],
+      STATUS: STATUS
     }
   },
   mounted () {
@@ -83,7 +72,11 @@ export default {
       })
     loadHistoryOrders()
       .then(res => {
-        this.orders2 = res.data
+        this.historyOrders = res.data
+      })
+    loadUnfinishedOrders()
+      .then(res => {
+        this.unfinishedOrders = res.data
       })
       // todo catch
   },
