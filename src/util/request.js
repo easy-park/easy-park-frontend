@@ -15,13 +15,16 @@ function request (options) {
     .then(res => {
       const data = res.data
       if (data.status === STATUS_SUCCESS) {
+        console.log(data)
         return data
       }
       return Promise.reject(data)
     })
     .catch(err => {
-      message.error('网络错误')
-      return err
+      if (!err.status) {
+        message.error('网络错误')
+      }
+      return Promise.reject(err)
     })
 }
 

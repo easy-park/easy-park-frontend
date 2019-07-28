@@ -8,8 +8,7 @@
           <span>接单</span>
         </div>
         <div class="content">
-          <OrderList :btnName="() => '抢单'" :orders="orders"
-            :btnCallback = "getOrder"/>
+          <placed-order-list></placed-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="1">
@@ -18,8 +17,7 @@
           <span>取车</span>
         </div>
         <div class="content">
-          <OrderList :btnName="(order) => STATUS[order.status]" :orders="unfinishedOrders"
-             :btnCallback = "fetchCar" />
+          <received-order-list></received-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="2">
@@ -28,10 +26,7 @@
           <span>历史</span>
         </div>
         <div class="content">
-          <OrderList :btnName="() => '详细信息'" :orders="historyOrders"
-             :btnCallback = "orderInfo" />
-          <a-modal v-model="visible" title="详细信息"
-          :footer="null" destroyOnClose><OrderDetail :order = 'order'/></a-modal>
+          <history-order-list></history-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="3">
@@ -46,48 +41,17 @@
 </template>
 
 <script>
-import OrderList from '@/components/clerk/OrderList'
-import OrderDetail from './OrderDetail'
-import { loadAvailableOrders, loadHistoryOrders, loadUnfinishedOrders } from '@/api/clerk/clerk-home'
-import { STATUS } from '@/api/clerk/order-status'
+import PlacedOrderList from './PlacedOrderList'
+import ReceivedOrderList from './ReceivedOrderList'
+import HistoryOrderList from './HistoryOrderList'
 
 export default {
   name: 'clerk-home',
-  components: { OrderList, OrderDetail },
+  components: { PlacedOrderList, ReceivedOrderList, HistoryOrderList },
   data () {
     return {
       visible: false,
-      headName: '订单',
-      order: {},
-      unfinishedOrders: [],
-      orders: [],
-      historyOrders: [],
-      STATUS: STATUS
-    }
-  },
-  mounted () {
-    loadAvailableOrders()
-      .then(res => {
-        this.orders = res.data
-      })
-    loadHistoryOrders()
-      .then(res => {
-        this.historyOrders = res.data
-      })
-    loadUnfinishedOrders()
-      .then(res => {
-        this.unfinishedOrders = res.data
-      })
-      // todo catch
-  },
-  methods: {
-    getOrder (order) {
-      this.$router.push('/select')
-    },
-    fetchCar (order) {},
-    orderInfo (order) {
-      this.visible = true
-      this.order = order
+      headName: '订单'
     }
   }
 }
