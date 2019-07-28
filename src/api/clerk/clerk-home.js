@@ -1,5 +1,5 @@
 import { request } from '@/util/request'
-import { PLACED, COMPLETED } from './order-status'
+import { PLACED, COMPLETED, FETCHED } from './order-status'
 
 function loadAvailableOrders () {
   return request({
@@ -25,8 +25,17 @@ function loadUnfinishedOrders () {
   })
 }
 
+function fetchCar (id) {
+  return request({
+    url: `parkingOrders/${id}`,
+    method: 'PUT',
+    params: { status: FETCHED }
+  })
+}
+
 export {
   loadAvailableOrders,
   loadHistoryOrders,
-  loadUnfinishedOrders
+  loadUnfinishedOrders,
+  fetchCar
 }

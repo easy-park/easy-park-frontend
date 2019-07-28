@@ -15,7 +15,7 @@
         </a-row>
       </a-col>
       <a-col align="center" :span="6">
-        <a-button type="primary" @click="btnCallback(order)" :disabled="order.status==PARKED">{{ btnName(order) }}</a-button>
+        <a-button type="primary" @click="btnCallback(order)" :disabled="order.status==PARKED || parkingBoyStatus==1">{{ btnName(order) }}</a-button>
       </a-col>
     </a-list-item>
   </a-list>
@@ -31,7 +31,8 @@ export default {
   props: {
     btnCallback: Function,
     btnName: Function,
-    orders: Array
+    orders: Array,
+    parkingBoyStatus: Number
   },
   data () {
     return {
