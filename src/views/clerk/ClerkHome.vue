@@ -8,7 +8,7 @@
           <span>接单</span>
         </div>
         <div class="content">
-          <placed-order-list></placed-order-list>
+          <placed-order-list :refresh="shouldRefreshObjs[0]"></placed-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="1">
@@ -17,7 +17,7 @@
           <span>取车</span>
         </div>
         <div class="content">
-          <received-order-list></received-order-list>
+          <received-order-list :refresh="shouldRefreshObjs[1]"></received-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="2">
@@ -26,7 +26,7 @@
           <span>历史</span>
         </div>
         <div class="content">
-          <history-order-list></history-order-list>
+          <history-order-list :refresh="shouldRefreshObjs[2]"></history-order-list>
         </div>
       </a-tab-pane>
       <a-tab-pane key="3">
@@ -35,7 +35,7 @@
           <span>我的</span>
         </div>
         <div class="content">
-          <clerk-profile></clerk-profile>
+          <clerk-profile :refresh="shouldRefreshObjs[3]"></clerk-profile>
         </div>
       </a-tab-pane>
     </a-tabs>
@@ -54,11 +54,13 @@ export default {
   data () {
     return {
       visible: false,
-      headName: '订单'
+      headName: '订单',
+      shouldRefreshObjs: [{}, {}, {}, {}]
     }
   },
   methods: {
     onTabClick (key) {
+      this.$set(this.shouldRefreshObjs, key, {})
     }
   }
 }
@@ -107,6 +109,7 @@ export default {
 /deep/ .ant-tabs-nav .ant-tabs-tab {
   flex: 1 1 auto;
 }
+
 #header{
   text-align: center;
   height: 50px;

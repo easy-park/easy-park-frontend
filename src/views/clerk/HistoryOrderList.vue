@@ -14,20 +14,42 @@ import { loadHistoryOrders } from '@/api/clerk/clerk-home'
 
 export default {
   components: { OrderList, OrderDetail },
+  props: {
+    refresh: {
+      type: Object, // 父组件传任意一个对象进来，表示需要重新刷新数据
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       historyOrders: [],
       order: undefined,
-      visible: false
+      visible: false,
+      isRefreshing: false
     }
   },
   beforeMount () {
-    loadHistoryOrders()
-      .then(res => {
-        this.historyOrders = res.data
-      })
+    this.loadHistoryOrders()
+  },
+  watch: {
+    refresh () {
+      this.loadHistoryOrders()
+    }
   },
   methods: {
+    loadHistoryOrders () {
+      if (this.isRefreshing) {
+        return
+      }
+      this.isRefreshing = true
+      loadHistoryOrders().then(res => {
+        this.historyOrders = res.data
+      }).finally(() => {
+        this.isRefreshing = false
+      })
+    },
     orderInfo (order) {
       this.visible = true
       this.order = order

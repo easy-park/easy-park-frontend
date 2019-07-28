@@ -22,12 +22,21 @@ import { IDLE, BUSY } from '@/api/clerk/clerk-status'
 import { loadClerkProfile } from '@/api/clerk/clerk-profile'
 
 export default {
+  props: {
+    refresh: {
+      type: Object, // 父组件传任意一个对象进来，表示需要重新刷新数据
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       user: {
         username: '123',
         name: '456',
-        status: 0
+        status: 0,
+        isRefreshing: false
       }
     }
   },
@@ -41,10 +50,25 @@ export default {
     }
   },
   beforeMount () {
-    loadClerkProfile()
-      .then(res => {
+    this.loadClerkProfile()
+  },
+  watch: {
+    refresh () {
+      this.loadClerkProfile()
+    }
+  },
+  methods: {
+    loadClerkProfile () {
+      if (this.isRefreshing) {
+        return
+      }
+      this.isRefreshing = true
+      loadClerkProfile().then(res => {
         this.user = res.data
+      }).finally(() => {
+        this.isRefreshing = false
       })
+    }
   }
 }
 </script>

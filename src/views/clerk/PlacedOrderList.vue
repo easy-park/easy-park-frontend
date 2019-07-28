@@ -8,20 +8,39 @@ import { loadAvailableOrders, setParkingBoyToOrder } from '@/api/clerk/clerk-hom
 
 export default {
   components: { OrderList },
+  props: {
+    refresh: {
+      type: Object, // 父组件传任意一个对象进来，表示需要重新刷新数据
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
-      orders: []
+      orders: [],
+      isRefreshing: false
     }
   },
   beforeMount () {
     this.loadOrders()
   },
+  watch: {
+    refresh () {
+      this.loadOrders()
+    }
+  },
   methods: {
     loadOrders () {
-      loadAvailableOrders()
-        .then(res => {
-          this.orders = res.data
-        })
+      if (this.isRefreshing) {
+        return
+      }
+      this.isRefreshing = true
+      loadAvailableOrders().then(res => {
+        this.orders = res.data
+      }).finally(() => {
+        this.isRefreshing = false
+      })
     },
     getOrder (order) {
       setParkingBoyToOrder(order)
