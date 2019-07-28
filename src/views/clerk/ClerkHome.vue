@@ -17,12 +17,7 @@
           <span>取车</span>
         </div>
         <div class="content">
-<<<<<<< HEAD
           <received-order-list></received-order-list>
-=======
-          <OrderList :btnName="(order) => STATUS[order.status]" :orders="unfinishedOrders"
-             :btnCallback = "fetchCar" :parkingBoyStatus="parkingBoyStatus" />
->>>>>>> 2b74fc5c61c41ba04ca1914b22794232d6e292a1
         </div>
       </a-tab-pane>
       <a-tab-pane key="2">
@@ -46,16 +41,9 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import PlacedOrderList from './PlacedOrderList'
 import ReceivedOrderList from './ReceivedOrderList'
 import HistoryOrderList from './HistoryOrderList'
-=======
-import OrderList from '@/components/clerk/OrderList'
-import OrderDetail from './OrderDetail'
-import { loadAvailableOrders, loadHistoryOrders, loadUnfinishedOrders, fetchCar } from '@/api/clerk/clerk-home'
-import { STATUS } from '@/api/clerk/order-status'
->>>>>>> 2b74fc5c61c41ba04ca1914b22794232d6e292a1
 
 export default {
   name: 'clerk-home',
@@ -63,50 +51,7 @@ export default {
   data () {
     return {
       visible: false,
-<<<<<<< HEAD
       headName: '订单'
-=======
-      headName: '订单',
-      order: {},
-      unfinishedOrders: [],
-      orders: [],
-      historyOrders: [],
-      STATUS: STATUS,
-      parkingBoyStatus: 1
-    }
-  },
-  mounted () {
-    loadAvailableOrders()
-      .then(res => {
-        this.orders = res.data
-      })
-    loadHistoryOrders()
-      .then(res => {
-        this.historyOrders = res.data
-      })
-    loadUnfinishedOrders()
-      .then(res => {
-        this.unfinishedOrders = res.data
-        this.parkingBoyStatus = res.data[0].parkingBoy.status
-      })
-      // todo catch
-  },
-  methods: {
-    getOrder (order) {
-      this.$router.push('/select')
-    },
-    fetchCar (order) {
-      const sure = confirm('确认取车？')
-      if (sure) {
-        fetchCar(order.id).then(res => {
-          this.parkingBoyStatus = res.data.parkingBoy.status
-        })
-      }
-    },
-    orderInfo (order) {
-      this.visible = true
-      this.order = order
->>>>>>> 2b74fc5c61c41ba04ca1914b22794232d6e292a1
     }
   }
 }
