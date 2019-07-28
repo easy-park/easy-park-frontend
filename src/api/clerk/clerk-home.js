@@ -32,9 +32,17 @@ function fetchCar (id) {
   })
 }
 
+function setParkingBoyToOrder (id) {
+  return request({
+    url: `parkingOrders/${id}`,
+    method: 'PUT'
+  })
+}
+
 export {
   loadAvailableOrders,
   loadHistoryOrders,
   loadUnfinishedOrders,
-  fetchCar
+  fetchCar,
+  setParkingBoyToOrder
 }

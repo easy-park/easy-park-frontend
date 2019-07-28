@@ -4,7 +4,7 @@
 
 <script>
 import OrderList from '@/components/clerk/OrderList'
-import { loadAvailableOrders } from '@/api/clerk/clerk-home'
+import { loadAvailableOrders, setParkingBoyToOrder } from '@/api/clerk/clerk-home'
 
 export default {
   components: { OrderList },
@@ -24,6 +24,10 @@ export default {
         })
     },
     getOrder (order) {
+      setParkingBoyToOrder(order.id)
+        .then(res => {
+          // nothing
+        })
       this.$router.push(`/select/${order.id}`)
     }
   }
