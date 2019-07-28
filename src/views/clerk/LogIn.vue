@@ -86,7 +86,7 @@ export default {
               if (res.status === 200 && res.msg === '登录成功') {
                 this.$message.success('登录成功')
                 this.$router.push('/')
-              }else {
+              } else {
                 this.$message.error('用户名或密码错误')
               }
             })
