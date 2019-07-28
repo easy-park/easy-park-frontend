@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Cookies from 'js-cookie'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -32,7 +33,27 @@ export default new Router({
     },
     {
       path: '/clerk/login',
+      name: 'login',
       component: () => import('@/views/clerk/LogIn')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log(Cookies.get('token'))
+  let isLogin = Cookies.get('token') !== undefined
+  const route = ['login']
+  if (route.indexOf(to.name) === -1) {
+    if (!isLogin) {
+      return next({ path: '/clerk/login' })
+    }
+  }
+  if (to.name === 'login') {
+    if (isLogin) {
+      return next({ path: '/' })
+    }
+  }
+  next()
+})
+
+export default router
