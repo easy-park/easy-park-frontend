@@ -17,7 +17,6 @@ function request (options) {
     .then(res => {
       const data = res.data
       if (data.status === STATUS_SUCCESS) {
-        console.log(data)
         return data
       }
       return Promise.reject(data)

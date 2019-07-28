@@ -3,10 +3,7 @@ import Cookies from 'js-cookie'
 
 const LOGIN_SUCCESS = '登录成功'
 
-function login(body) {
-  let login = JSON.stringify(body)
-  console.log(login)
-  console.log(body)
+function login (body) {
   return request({
     url: 'parkingBoys',
     method: 'POST',

@@ -40,7 +40,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(Cookies.get('token'))
   let isLogin = Cookies.get('token') !== undefined
   const route = ['login']
   if (route.indexOf(to.name) === -1) {

@@ -20,7 +20,6 @@ export default {
     loadOrders () {
       loadAvailableOrders()
         .then(res => {
-          console.log('placed order list', res)
           this.orders = res.data
         })
     },

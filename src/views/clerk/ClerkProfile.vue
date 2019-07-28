@@ -19,6 +19,7 @@
 
 <script>
 import { IDLE, BUSY } from '@/api/clerk/clerk-status'
+import { loadClerkProfile } from '@/api/clerk/clerk-profile'
 
 export default {
   data () {
@@ -38,6 +39,12 @@ export default {
       }
       return ''
     }
+  },
+  beforeMount () {
+    loadClerkProfile()
+      .then(res => {
+        this.user = res.data
+      })
   }
 }
 </script>
