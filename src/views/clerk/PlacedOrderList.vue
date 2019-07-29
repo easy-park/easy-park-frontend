@@ -55,6 +55,9 @@ export default {
             this.$message('该订单已经被抢了')
           }
         })
+    },
+    refreshData () { // 重写 websocket (mixins) 的方法
+      this.loadOrders()
     }
   }
 }

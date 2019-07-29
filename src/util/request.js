@@ -28,10 +28,10 @@ function request (options) {
     .catch(err => {
       if (!err.status && !err.response) {
         message.error('网络错误')
-        return Promise.reject(err)
       } else if (err.response) {
         message.error('服务器异常')
       }
+      return Promise.reject(err)
     })
 }
 

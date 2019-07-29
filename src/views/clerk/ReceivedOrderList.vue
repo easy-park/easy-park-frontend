@@ -7,8 +7,10 @@ import OrderList from '@/components/OrderList'
 import { loadUnfinishedOrders, fetchCar } from '@/api/clerk/clerk-home'
 import { PARKED, FETCHING } from '@/api/clerk/order-status'
 import { BUSY } from '@/api/clerk/clerk-status'
+import { websocket } from '@/mixins/websocket'
 
 export default {
+  mixins: [ websocket ],
   components: { OrderList },
   props: {
     refresh: {
@@ -62,6 +64,9 @@ export default {
       if (order.status === FETCHING) {
         return '取车'
       }
+    },
+    refreshData () { // 重写 websocket (mixins) 的方法
+      this.loadUnfinishedOrders()
     }
   }
 }

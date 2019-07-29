@@ -38,8 +38,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const isLogin = Cookies.get('token') !== undefined
-  console.log(to, isLogin)
   if (to.path === '/') {
     if (to.query.role === 'customer') {
       navigateForCustomer(to, from, next)
