@@ -26,9 +26,7 @@ function request (options) {
       return Promise.reject(data)
     })
     .catch(err => {
-      if (!err.status && !err.response) {
-        message.error('网络错误')
-      } else if (err.response) {
+      if (err.response && err.response.status === 500) {
         message.error('服务器异常')
       }
       return Promise.reject(err)
