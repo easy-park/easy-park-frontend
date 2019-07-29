@@ -1,7 +1,7 @@
 import { request } from '@/util/request'
 import Cookies from 'js-cookie'
-
-const LOGIN_SUCCESS = '登录成功'
+import { loadClerkProfile } from './clerk-profile'
+import { store } from '@/store'
 
 function login (body) {
   return request({
@@ -9,9 +9,10 @@ function login (body) {
     method: 'POST',
     data: body
   }).then(res => {
-    if (res.status === 200 && res.msg === LOGIN_SUCCESS) {
-      Cookies.set('token', res.data)
-    }
+    Cookies.set('token', res.data)
+    return loadClerkProfile()
+  }).then(res => {
+    store.commit('setUser', res.data)
     return res
   })
 }

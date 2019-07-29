@@ -6,8 +6,10 @@
 import OrderList from '@/components/clerk/OrderList'
 import { loadAvailableOrders, setParkingBoyToOrder } from '@/api/clerk/clerk-home'
 import { BAD_REQUEST } from '@/api/status'
+import { websocket } from '@/mixins/websocket'
 
 export default {
+  mixins: [ websocket ],
   components: { OrderList },
   props: {
     refresh: {
