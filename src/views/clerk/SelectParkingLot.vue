@@ -1,12 +1,7 @@
 <template>
   <div id="select">
     <a-layout>
-      <a-layout-header style="background-color: #1890ff;font-size:large">
-        <a-button style="float: left;margin-left: -40px;margin-top: 15px;border-style: none" :ghost="true" @click="goBack">
-          <a-icon type="left" />
-        </a-button>
-        <span style="color: white">停车地点</span>
-      </a-layout-header>
+      <title-header :showLeftButton="true">停车地点</title-header>
       <a-layout-content style="background-color: white">
         <div style="margin-top: 30px">
           <a-select placeholder="选择停车场" style="width: 90%" size="large" defaultActiveFirstOption @change="onSelectChange">
@@ -36,11 +31,12 @@
 </template>
 <script>
 import OrderDetail from './OrderDetail'
+import TitleHeader from '@/components/clerk/TitleHeader'
 import { loadClerkParkingLots, receiptOrder, loadOrder, parkedCar } from '@/api/clerk/select-parking-lot'
 
 export default {
   name: 'select-parkinglot',
-  components: { OrderDetail },
+  components: { OrderDetail, TitleHeader },
   data () {
     return {
       parkingLots: [],

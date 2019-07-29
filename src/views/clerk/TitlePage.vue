@@ -1,6 +1,6 @@
 <template>
   <a-layout>
-    <title-header :title="title" :showLeftButton="true"></title-header>
+    <title-header :showLeftButton="true">{{ title }}</title-header>
     <a-layout-content>
       <router-view></router-view>
     </a-layout-content>

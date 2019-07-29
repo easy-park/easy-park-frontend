@@ -1,8 +1,8 @@
 <template>
   <a-layout class="clerk-home">
-    <a-row id="header">{{ headName }}</a-row>
-    <a-tabs class="tabs" :tabBarGutter="0" defaultActiveKey="0" tabPosition="bottom" @tabClick="onTabClick">
-      <a-tab-pane key="0">
+    <title-header>{{ title }}</title-header>
+    <a-tabs class="tabs" :tabBarGutter="0" :defaultActiveKey="defaultActiveKey" tabPosition="bottom" @tabClick="onTabClick" @change="onTabChange">
+      <a-tab-pane :key="0">
         <div slot="tab" class="tab-slot">
           <a-icon type="home"/>
           <span>接单</span>
@@ -11,7 +11,7 @@
           <placed-order-list :refresh="shouldRefreshObjs[0]"></placed-order-list>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="1">
+      <a-tab-pane :key="1">
         <div slot="tab" class="tab-slot">
           <a-icon type="swap"/>
           <span>取车</span>
@@ -20,7 +20,7 @@
           <received-order-list :refresh="shouldRefreshObjs[1]"></received-order-list>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="2">
+      <a-tab-pane :key="2">
         <div slot="tab" class="tab-slot">
           <a-icon type="bars"/>
           <span>历史</span>
@@ -29,7 +29,7 @@
           <history-order-list :refresh="shouldRefreshObjs[2]"></history-order-list>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="3">
+      <a-tab-pane :key="3">
         <div slot="tab" class="tab-slot">
           <a-icon type="user"/>
           <span>我的</span>
@@ -47,20 +47,28 @@ import PlacedOrderList from './PlacedOrderList'
 import ReceivedOrderList from './ReceivedOrderList'
 import HistoryOrderList from './HistoryOrderList'
 import ClerkProfile from './ClerkProfile'
+import TitleHeader from '@/components/clerk/TitleHeader'
+
+const TITLES = ['接单', '取车', '历史', '我的']
 
 export default {
   name: 'clerk-home',
-  components: { PlacedOrderList, ReceivedOrderList, HistoryOrderList, ClerkProfile },
+  components: { PlacedOrderList, ReceivedOrderList, HistoryOrderList, ClerkProfile, TitleHeader },
   data () {
     return {
       visible: false,
       headName: '订单',
-      shouldRefreshObjs: [{}, {}, {}, {}]
+      shouldRefreshObjs: [{}, {}, {}, {}],
+      defaultActiveKey: 0,
+      title: TITLES[0]
     }
   },
   methods: {
     onTabClick (key) {
       this.$set(this.shouldRefreshObjs, key, {})
+    },
+    onTabChange (key) {
+      this.title = TITLES[key]
     }
   }
 }
@@ -91,11 +99,17 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-}
 
-.tab-slot i {
-  margin: 0 !important;
-  font-size: 20px;
+  i {
+    margin: 0 !important;
+    font-size: 16px;
+  }
+
+  span {
+    font-size: 14px;
+    line-height: 1em;
+    margin: 2px 0 0;
+  }
 }
 
 /deep/ .ant-tabs-nav {

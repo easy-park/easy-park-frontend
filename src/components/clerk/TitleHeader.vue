@@ -1,7 +1,9 @@
 <template>
   <div class="title-header">
-    <h2 class="title">{{ title }}</h2>
-    <a href="javascript: void 0" v-if="showLeftButton">
+    <h2 class="title">
+      <slot></slot>
+    </h2>
+    <a ref="leftBtn" href="javascript: void 0" v-if="showLeftButton" @click="leftButtonClick">
       <a-icon type="arrow-left" class="icon"></a-icon>
     </a>
   </div>
@@ -10,19 +12,27 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: ''
-    },
     showLeftButton: {
       type: Boolean,
       default: false
     },
     leftButtonAction: {
       type: Function,
-      default: () => {
+      default: function () {
         this.$router.back()
       }
+    }
+  },
+  mounted () {
+    const leftBtn = this.$refs.leftBtn
+    if (leftBtn) {
+      const activeClass = 'active'
+      leftBtn.addEventListener('pointerdown', function (e) {
+        this.classList.add(activeClass)
+      })
+      leftBtn.addEventListener('pointerup', function (e) {
+        this.classList.remove(activeClass)
+      })
     }
   },
   methods: {
@@ -67,7 +77,7 @@ export default {
     z-index: 1;
   }
 
-  a:hover {
+  a.active {
     background-color: rgba(0, 0, 0, .05);
   }
 
