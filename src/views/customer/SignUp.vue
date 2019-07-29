@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { EMAIL as EMAIL_REGEXP, MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
+import { MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
 import { signUp } from '@/api/customer/sign-up'
 import { BAD_REQUEST } from '@/api/status'
 
