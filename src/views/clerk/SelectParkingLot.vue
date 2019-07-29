@@ -15,7 +15,7 @@
           </a-select>
         </div>
         <div style="margin-top: 100px">
-          <a-button type="primary" style="width: 80%;height: 50px" @click="receiptOrder">完成订单</a-button>
+          <a-button type="primary" style="width: 80%;height: 50px" @click="receiptOrder">开始停车</a-button>
         </div>
       </a-layout-content>
     </a-layout>
