@@ -83,7 +83,10 @@ export default {
       if (order.status === PARKED) {
         return '取车'
       }
-      if (order.status === FETCHING || order.status === FETCHED) {
+      if (order.status === FETCHING) {
+        return '待取车'
+      }
+      if (order.status === FETCHED) {
         return '确认取车'
       }
     }

@@ -24,7 +24,7 @@
 
 <script>
 import { formatDate } from '@/util/datetime'
-import { PLACED, RECEIVED } from '@/api/clerk/order-status'
+import { PLACED, RECEIVED, FETCHING } from '@/api/clerk/order-status'
 
 export default {
   name: 'orderList',
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     isDisabled (order) {
-      if (order.status === PLACED || order.status === RECEIVED) {
+      if (order.status === PLACED || order.status === RECEIVED || order.status === FETCHING) {
         return true
       }
       return false

@@ -32,9 +32,17 @@ function parkCar (carNumber) {
   })
 }
 
+function loadHistoryOrders () {
+  return request({
+    url: 'parkingOrders',
+    method: 'GET'
+  })
+}
+
 export {
   loadUnfinishedOrders,
   fetchCar,
   parkCar,
-  finishOrder
+  finishOrder,
+  loadHistoryOrders
 }
