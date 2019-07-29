@@ -133,7 +133,6 @@ export default {
   },
   methods: {
     validatePhoneNumber (rule, value, callback) {
-      console.log(value)
       if (value && !new RegExp(MOBOILE_PHONE_REGEXP).test(value)) {
         callback(rule.message)
       } else {
