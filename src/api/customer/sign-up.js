@@ -1,9 +1,9 @@
 import { request } from '@/util/request'
 import Cookies from 'js-cookie'
 
-function login (body) {
+function signUp (body) {
   return request({
-    url: 'customer/login',
+    url: 'customer/register',
     method: 'POST',
     data: body
   }).then(res => {
@@ -13,5 +13,5 @@ function login (body) {
 }
 
 export {
-  login
+  signUp
 }

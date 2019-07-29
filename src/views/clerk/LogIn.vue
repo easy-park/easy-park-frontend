@@ -10,12 +10,12 @@
           'username',
           {
             rules: [
-              { required: true, message: '请输入用户名/手机号' }
+              { required: true, message: '请输入用户名/手机号/邮箱' }
             ]
           }
         ]"
         size="large"
-        placeholder="用户名/手机号">
+        placeholder="用户名/手机号/邮箱">
         <a-icon
           slot="prefix"
           type="user"
@@ -52,6 +52,7 @@
 <script>
 import { EMAIL as EMAIL_REGEXP, MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
 import { login } from '@/api/clerk/login'
+import { BAD_REQUEST } from '@/api/status'
 
 export default {
   data () {
@@ -73,7 +74,7 @@ export default {
             this.$message.success('登录成功')
             this.$router.push('/')
           }).catch((err) => {
-            if (err.status === 400) {
+            if (err.status === BAD_REQUEST) {
               this.$message.error('用户名或密码错误')
             }
           }).finally(() => {
