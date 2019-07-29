@@ -55,10 +55,8 @@ function navigateForClerk (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
     next('/clerk/login')
-const isLogin = Cookies.get('token') !== undefined
-  console.log(to, isLogin)
+  } else {
     next('/clerk/home')
-  }
   }
 }
 
@@ -68,7 +66,6 @@ function navigateForCustomer (to, from, next) {
     next('/customer/login')
   } else {
     next('/customer/home')
-  } else {
   }
 }
 
