@@ -16,6 +16,7 @@
 import OrderList from './UserOrders'
 import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/user/user-order'
 import { PARKED, FETCHING, FETCHED, PLACED, RECEIVED } from '@/api/clerk/order-status'
+import { setInterval, clearInterval } from 'timers'
 
 export default {
   name: 'FetchCar',
@@ -32,7 +33,8 @@ export default {
     return {
       orders: [],
       show: false,
-      msg: ''
+      msg: '',
+      autoTime: 0
     }
   },
   mounted () {
@@ -59,14 +61,14 @@ export default {
     fetchCar (order) {
       if (order.status === PARKED) {
         fetchCar(order.id).then(res => {
-          this.show = true
+          this.getShowTime()
           this.msg = '取车中，请稍后!'
           const index = this.orders.findIndex(e => e.id === order.id)
           this.orders.splice(index, 1, res.data)
         })
       } else {
         finishOrder(order.id).then(res => {
-          this.show = true
+          this.getShowTime()
           this.msg = '完成订单!'
           const index = this.orders.findIndex(e => e.id === order.id)
           this.orders.splice(index, 1)
@@ -89,6 +91,17 @@ export default {
       if (order.status === FETCHED) {
         return '确认取车'
       }
+    },
+    getShowTime () {
+      this.show = true
+      this.autoTime = 3
+      const timer = setInterval(() => {
+        this.autoTime--
+        if (this.autoTime <= 0) {
+          this.show = false
+          clearInterval(timer)
+        }
+      }, 1000)
     }
   }
 }

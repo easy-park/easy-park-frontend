@@ -34,7 +34,7 @@ function parkCar (carNumber) {
 
 function loadHistoryOrders () {
   return request({
-    url: 'parkingOrders',
+    url: 'customer/historyorder',
     method: 'GET'
   })
 }
