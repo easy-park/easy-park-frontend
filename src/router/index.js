@@ -34,35 +34,35 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  const isLogin = Cookies.get('token') !== undefined
+  console.log(to, isLogin)
   if (to.path === '/') {
     if (to.query.role === 'customer') {
       navigateForCustomer(to, from, next)
     } else {
       navigateForClerk(to, from, next)
     }
+  } else {
+    next()
   }
-  next()
 })
 
 function navigateForClerk (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
-    next({ path: '/clerk/login' })
-  } else if (to.path === '/clerk/login') {
-    next({ path: '/clerk/home' })
+    next('/clerk/login')
+  } else {
+    next('/clerk/home')
   }
-  next()
 }
 
 function navigateForCustomer (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
     next('/customer/login')
-  } else if (to.path === '/customer/login') {
+  } else {
     next('/customer/home')
   }
-  next()
 }
 
 export default router
