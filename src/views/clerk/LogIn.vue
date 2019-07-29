@@ -10,12 +10,12 @@
           'username',
           {
             rules: [
-              { required: true, message: '请输入手机号/邮箱' }
+              { required: true, message: '请输入用户名/手机号/邮箱' }
             ]
           }
         ]"
         size="large"
-        placeholder="手机号/邮箱">
+        placeholder="用户名/手机号/邮箱">
         <a-icon
           slot="prefix"
           type="user"
@@ -52,6 +52,7 @@
 <script>
 import { EMAIL as EMAIL_REGEXP, MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
 import { login } from '@/api/clerk/login'
+import { BAD_REQUEST } from '@/api/status'
 
 export default {
   data () {
@@ -68,33 +69,35 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.isLoading = true
-          const body = Object.assign({
-            username: undefined,
-            email: undefined,
-            phoneNumber: undefined,
-            password: undefined
-          }, values)
-          if (new RegExp(EMAIL_REGEXP).test(body.username)) {
-            body.email = body.username
-            body.username = undefined
-          } else if (new RegExp(MOBOILE_PHONE_REGEXP).test(body.username)) {
-            body.phoneNumber = body.username
-            body.username = undefined
-          }
-          login(body)
-            .then(res => {
-              if (res.status === 200 && res.msg === '登录成功') {
-                this.$message.success('登录成功')
-                this.$router.push('/')
-              } else {
-                this.$message.error('用户名或密码错误')
-              }
-            })
-            .finally(() => {
-              this.isLoading = false
-            })
+          const body = this.collectLoginInfo(values)
+          login(body).then(res => {
+            this.$message.success('登录成功')
+            this.$router.push('/')
+          }).catch((err) => {
+            if (err.status === BAD_REQUEST) {
+              this.$message.error('用户名或密码错误')
+            }
+          }).finally(() => {
+            this.isLoading = false
+          })
         }
       })
+    },
+    collectLoginInfo (values) {
+      const ret = Object.assign({
+        username: undefined,
+        email: undefined,
+        phoneNumber: undefined,
+        password: undefined
+      }, values)
+      if (new RegExp(EMAIL_REGEXP).test(ret.username)) {
+        ret.email = ret.username
+        ret.username = undefined
+      } else if (new RegExp(MOBOILE_PHONE_REGEXP).test(ret.username)) {
+        ret.phoneNumber = ret.username
+        ret.username = undefined
+      }
+      return ret
     }
   }
 }

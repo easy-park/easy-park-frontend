@@ -9,23 +9,9 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/clerk/home',
+      component: () => import('@/views/clerk/ClerkHome')
       // component: () => import('@/views/clerk/ClerkHome')
-      component: () => import('@/views/user/UserHome')
-    },
-    {
-      path: '/clerk',
-      component: () => import('@/views/clerk/TitlePage'),
-      children: [
-        {
-          path: 'home',
-          component: () => import('@/views/clerk/ClerkHome'),
-          meta: {
-            title: '主页'
-          }
-        }
-      ]
     },
     {
       path: '/select/:orderId',
@@ -34,26 +20,50 @@ const router = new Router({
     },
     {
       path: '/clerk/login',
-      name: 'login',
+      name: 'ClerkLogin',
       component: () => import('@/views/clerk/LogIn')
+    },
+    {
+      path: '/customer/login',
+      component: () => import('@/views/customer/LogIn')
+    },
+    {
+      path: '/customer/signup',
+      component: () => import('@/views/customer/SignUp')
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  let isLogin = Cookies.get('token') !== undefined
-  const route = ['login']
-  if (route.indexOf(to.name) === -1) {
-    if (!isLogin) {
-      return next({ path: '/clerk/login' })
-    }
-  }
-  if (to.name === 'login') {
-    if (isLogin) {
-      return next({ path: '/' })
+  console.log(to)
+  if (to.path === '/') {
+    if (to.query.role === 'customer') {
+      navigateForCustomer(to, from, next)
+    } else {
+      navigateForClerk(to, from, next)
     }
   }
   next()
 })
+
+function navigateForClerk (to, from, next) {
+  let isLogin = Cookies.get('token') !== undefined
+  if (!isLogin) {
+    next({ path: '/clerk/login' })
+  } else if (to.path === '/clerk/login') {
+    next({ path: '/clerk/home' })
+  }
+  next()
+}
+
+function navigateForCustomer (to, from, next) {
+  let isLogin = Cookies.get('token') !== undefined
+  if (!isLogin) {
+    next('/customer/login')
+  } else if (to.path === '/customer/login') {
+    next('/customer/home')
+  }
+  next()
+}
 
 export default router

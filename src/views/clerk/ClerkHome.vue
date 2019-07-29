@@ -70,6 +70,13 @@ export default {
     onTabChange (key) {
       this.title = TITLES[key]
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    if (to.query.role === 'customer') {
+      next('/clerk/login')
+    } else {
+      next()
+    }
   }
 }
 </script>

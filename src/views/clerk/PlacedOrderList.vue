@@ -5,6 +5,7 @@
 <script>
 import OrderList from '@/components/OrderList'
 import { loadAvailableOrders, setParkingBoyToOrder } from '@/api/clerk/clerk-home'
+import { BAD_REQUEST } from '@/api/status'
 
 export default {
   components: { OrderList },
@@ -46,6 +47,11 @@ export default {
       setParkingBoyToOrder(order)
         .then(res => {
           this.$router.push(`/select/${order.id}`)
+        })
+        .catch(err => {
+          if (err.status === BAD_REQUEST) {
+            this.$message('该订单已经被抢了')
+          }
         })
     }
   }
