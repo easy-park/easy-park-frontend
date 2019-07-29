@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import OrderDetail from './OrderDetail'
+import OrderDetail from '@/components/OrderDetail'
 import TitleHeader from '@/components/clerk/TitleHeader'
 import { loadClerkParkingLots, receiptOrder, loadOrder, parkedCar } from '@/api/clerk/select-parking-lot'
 

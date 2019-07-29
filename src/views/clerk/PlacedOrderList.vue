@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import OrderList from '@/components/clerk/OrderList'
+import OrderList from '@/components/OrderList'
 import { loadAvailableOrders, setParkingBoyToOrder } from '@/api/clerk/clerk-home'
 
 export default {

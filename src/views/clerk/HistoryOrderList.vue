@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import OrderList from '@/components/clerk/OrderList'
-import OrderDetail from './OrderDetail'
+import OrderList from '@/components/OrderList'
+import OrderDetail from '@/components/OrderDetail'
 import { loadHistoryOrders } from '@/api/clerk/clerk-home'
 
 export default {
