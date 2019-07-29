@@ -72,7 +72,7 @@ export default {
           const body = this.collectLoginInfo(values)
           login(body).then(res => {
             this.$message.success('登录成功')
-            this.$router.push('/')
+            this.$router.push('/clerk/home')
           }).catch((err) => {
             if (err.status === BAD_REQUEST) {
               this.$message.error('用户名或密码错误')

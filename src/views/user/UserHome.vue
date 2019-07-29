@@ -17,7 +17,7 @@
           <span>取车</span>
         </div>
         <div class="content">
-          <FetchCar />
+          <FetchCar :refresh="shouldRefreshObjs"/>
         </div>
       </a-tab-pane>
       <a-tab-pane key="2">
@@ -50,7 +50,8 @@ export default {
   data () {
     return {
       defaultActiveKey: '0',
-      title: TITLES[0]
+      title: TITLES[0],
+      shouldRefreshObjs: {}
     }
   },
   methods: {

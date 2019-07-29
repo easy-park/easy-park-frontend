@@ -1,17 +1,26 @@
 import { request } from '@/util/request'
+import { FETCHING, COMPLETED } from '@/api/clerk/order-status'
 
-function loadUnfinishOrders () {
+function loadUnfinishedOrders () {
   return request({
-    url: 'parkingOrders',
+    url: 'parking_orders_customer',
     method: 'GET'
   })
 }
 
-function fetchCar (order) {
+function fetchCar (id) {
   return request({
-    url: 'parkingOrders',
+    url: `parkingOrders/${id}`,
     method: 'PUT',
-    data: { id: order.id }
+    params: { status: FETCHING }
+  })
+}
+
+function finishOrder (id) {
+  return request({
+    url: `parkingOrders/${id}`,
+    method: 'PUT',
+    params: { status: COMPLETED }
   })
 }
 
@@ -19,12 +28,13 @@ function parkCar (carNumber) {
   return request({
     url: 'parkingOrders',
     method: 'POST',
-    data: { carNumber: carNumber }
+    params: { carNumber: carNumber }
   })
 }
 
 export {
-  loadUnfinishOrders,
+  loadUnfinishedOrders,
   fetchCar,
-  parkCar
+  parkCar,
+  finishOrder
 }

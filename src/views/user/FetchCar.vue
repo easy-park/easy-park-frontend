@@ -1,34 +1,85 @@
 <template>
-    <OrderList :btnName="mapBtnName" :orders="orders" :btnCallback = "fetchCar" :userStatus="userStatus"/>
+  <div>
+    <OrderList :btnName="mapBtnName" :orders="orders" :btnCallback = "fetchCar"/>
+    <a-alert
+      v-if="show"
+      message="Success Tips"
+      :description="msg"
+      type="success"
+      showIcon
+      closable
+    />
+  </div>
 </template>
 
 <script>
-import OrderList from '@/components/OrderList'
-import { loadUnfinishOrders, fetchCar } from '@/api/user/user-order'
-import { PARKED, FETCHING, FETCHED } from '@/api/clerk/order-status'
+import OrderList from './UserOrders'
+import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/user/user-order'
+import { PARKED, FETCHING, FETCHED, PLACED, RECEIVED } from '@/api/clerk/order-status'
 
 export default {
   name: 'FetchCar',
   components: { OrderList },
+  props: {
+    refresh: {
+      type: Object,
+      default: function () {
+        return {}
+      }
+    }
+  },
   data () {
     return {
       orders: [],
-      userStatus: true
+      show: false,
+      msg: ''
     }
   },
-  beforeMount () {
-    loadUnfinishOrders()
-      .then(res => {
-        this.orders = res.data
-      })
+  mounted () {
+    this.loadUnfinishedOrders()
+  },
+  watch: {
+    refresh () {
+      this.loadUnfinishedOrders()
+    }
   },
   methods: {
+    loadUnfinishedOrders () {
+      if (this.isRefreshing) {
+        return
+      }
+      this.isRefreshing = true
+      loadUnfinishedOrders()
+        .then(res => {
+          this.orders = res.data
+        }).finally(() => {
+          this.isRefreshing = false
+        })
+    },
     fetchCar (order) {
-      fetchCar(order).then(res => {
-        // set stauts = 4
-      })
+      if (order.status === PARKED) {
+        fetchCar(order.id).then(res => {
+          this.show = true
+          this.msg = '取车中，请稍后!'
+          const index = this.orders.findIndex(e => e.id === order.id)
+          this.orders.splice(index, 1, res.data)
+        })
+      } else {
+        finishOrder(order.id).then(res => {
+          this.show = true
+          this.msg = '完成订单!'
+          const index = this.orders.findIndex(e => e.id === order.id)
+          this.orders.splice(index, 1)
+        })
+      }
     },
     mapBtnName (order) {
+      if (order.status === PLACED) {
+        return '待接单'
+      }
+      if (order.status === RECEIVED) {
+        return '已接单'
+      }
       if (order.status === PARKED) {
         return '取车'
       }

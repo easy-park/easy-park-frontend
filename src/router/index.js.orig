@@ -11,6 +11,8 @@ const router = new Router({
     {
       path: '/clerk/home',
       component: () => import('@/views/clerk/ClerkHome')
+      // component: () => import('@/views/clerk/ClerkHome')
+
     },
     {
       path: '/select/:orderId',
@@ -29,10 +31,6 @@ const router = new Router({
     {
       path: '/customer/signup',
       component: () => import('@/views/customer/SignUp')
-    },
-    {
-      path: '/customer/home',
-      component: () => import('@/views/user/UserHome')
     }
   ]
 })
@@ -45,31 +43,28 @@ router.beforeEach((to, from, next) => {
     } else {
       navigateForClerk(to, from, next)
     }
-  } else {
-    next()
   }
+  next()
 })
 
 function navigateForClerk (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
     next({ path: '/clerk/login' })
-  } else if (to.path === '/clerk/login' || to.path === '/') {
+  } else if (to.path === '/clerk/login') {
     next({ path: '/clerk/home' })
-  } else {
-    next()
   }
+  next()
 }
 
 function navigateForCustomer (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
     next('/customer/login')
-  } else if (to.path === '/customer/login' || to.path === '/') {
+  } else if (to.path === '/customer/login') {
     next('/customer/home')
-  } else {
-    next()
   }
+  next()
 }
 
 export default router
