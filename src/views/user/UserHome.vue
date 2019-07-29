@@ -26,6 +26,7 @@
           <span>历史</span>
         </div>
         <div class="content">
+          <HistoryOrders />
         </div>
       </a-tab-pane>
       <a-tab-pane key="3">
@@ -43,10 +44,11 @@
 <script>
 import ParkCar from './ParkCar'
 import FetchCar from './FetchCar'
+import HistoryOrders from './HistoryOrders'
 const TITLES = ['停车', '取车', '历史', '我的']
 export default {
   name: 'user-home',
-  components: { ParkCar, FetchCar },
+  components: { ParkCar, FetchCar, HistoryOrders },
   data () {
     return {
       defaultActiveKey: '0',
@@ -57,6 +59,7 @@ export default {
   methods: {
     onTabChange (key) {
       this.title = TITLES[key]
+      this.shouldRefreshObjs = {}
     }
   }
 }

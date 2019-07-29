@@ -1,5 +1,6 @@
 import { request } from '@/util/request'
 import { FETCHING, COMPLETED } from '@/api/clerk/order-status'
+import { sendMessage } from './websocket'
 
 function loadUnfinishedOrders () {
   return request({
@@ -13,6 +14,9 @@ function fetchCar (id) {
     url: `parkingOrders/${id}`,
     method: 'PUT',
     params: { status: FETCHING }
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 
@@ -21,6 +25,9 @@ function finishOrder (id) {
     url: `parkingOrders/${id}`,
     method: 'PUT',
     params: { status: COMPLETED }
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 
@@ -29,6 +36,16 @@ function parkCar (carNumber) {
     url: 'parkingOrders',
     method: 'POST',
     params: { carNumber: carNumber }
+  }).then(res => {
+    sendMessage()
+    return res
+  })
+}
+
+function loadHistoryOrders () {
+  return request({
+    url: 'customer/historyorder',
+    method: 'GET'
   })
 }
 
@@ -36,5 +53,6 @@ export {
   loadUnfinishedOrders,
   fetchCar,
   parkCar,
-  finishOrder
+  finishOrder,
+  loadHistoryOrders
 }
