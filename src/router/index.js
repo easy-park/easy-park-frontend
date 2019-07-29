@@ -38,7 +38,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  const isLogin = Cookies.get('token') !== undefined
+  console.log(to, isLogin)
   if (to.path === '/') {
     if (to.query.role === 'customer') {
       navigateForCustomer(to, from, next)
@@ -53,11 +54,11 @@ router.beforeEach((to, from, next) => {
 function navigateForClerk (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
-    next({ path: '/clerk/login' })
-  } else if (to.path === '/clerk/login' || to.path === '/') {
-    next({ path: '/clerk/home' })
-  } else {
-    next()
+    next('/clerk/login')
+const isLogin = Cookies.get('token') !== undefined
+  console.log(to, isLogin)
+    next('/clerk/home')
+  }
   }
 }
 
@@ -65,10 +66,9 @@ function navigateForCustomer (to, from, next) {
   let isLogin = Cookies.get('token') !== undefined
   if (!isLogin) {
     next('/customer/login')
-  } else if (to.path === '/customer/login' || to.path === '/') {
+  } else {
     next('/customer/home')
   } else {
-    next()
   }
 }
 
