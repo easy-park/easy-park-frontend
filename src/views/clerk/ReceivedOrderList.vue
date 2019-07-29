@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import OrderList from '@/components/clerk/OrderList'
+import OrderList from '@/components/OrderList'
 import { loadUnfinishedOrders, fetchCar } from '@/api/clerk/clerk-home'
-import { STATUS } from '@/api/clerk/order-status'
+import { PARKED, FETCHING } from '@/api/clerk/order-status'
 import { BUSY } from '@/api/clerk/clerk-status'
 
 export default {
@@ -51,10 +51,17 @@ export default {
     fetchCar (order) {
       fetchCar(order.id).then(res => {
         this.parkingBoyStatus = BUSY
+        const index = this.unfinishedOrders.findIndex(v => v.id === order.id)
+        this.unfinishedOrders.splice(index, 1)
       })
     },
     mapBtnName (order) {
-      return STATUS[order.status]
+      if (order.status === PARKED) {
+        return '已停'
+      }
+      if (order.status === FETCHING) {
+        return '取车'
+      }
     }
   }
 }

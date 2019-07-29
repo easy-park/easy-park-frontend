@@ -15,7 +15,7 @@
         </a-row>
       </a-col>
       <a-col align="center" :span="6">
-        <a-button type="primary" @click="btnCallback(order)" :disabled="order.status==PARKED || parkingBoyStatus==1">{{ btnName(order) }}</a-button>
+        <a-button type="primary" @click="btnCallback(order)" :disabled="isDisabled(order)">{{ btnName(order) }}</a-button>
       </a-col>
     </a-list-item>
   </a-list>
@@ -24,7 +24,7 @@
 
 <script>
 import { formatDate } from '@/util/datetime'
-import { PARKED } from '@/api/clerk/order-status'
+import { PLACED, RECEIVED } from '@/api/clerk/order-status'
 
 export default {
   name: 'orderList',
@@ -32,16 +32,20 @@ export default {
     btnCallback: Function,
     btnName: Function,
     orders: Array,
-    parkingBoyStatus: Number
-  },
-  data () {
-    return {
-      PARKED: PARKED
-    }
+    parkingBoyStatus: Number,
+    userStatus: Boolean
   },
   filters: {
     toDate (datetimeString) {
       return datetimeString ? formatDate(new Date(datetimeString), 'MM-DD hh:mm') : ''
+    }
+  },
+  methods: {
+    isDisabled (order) {
+      if (order.status === PLACED || order.status === RECEIVED) {
+        return true
+      }
+      return false
     }
   }
 }
