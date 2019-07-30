@@ -1,7 +1,7 @@
 <template>
   <a-layout class="user-home">
     <a-row id="header">{{ title }}</a-row>
-    <a-tabs class="tabs" :tabBarGutter="0" :defaultActiveKey="defaultActiveKey" tabPosition="bottom" @change="onTabChange">
+    <a-tabs class="tabs" :tabBarGutter="0" :defaultActiveKey="defaultActiveKey" tabPosition="bottom" @change="onTabChange" @tabClick="onTabClick">
       <a-tab-pane key="0">
         <div slot="tab" class="tab-slot">
           <a-icon type="home"/>
@@ -59,6 +59,9 @@ export default {
   methods: {
     onTabChange (key) {
       this.title = TITLES[key]
+      this.shouldRefreshObjs = {}
+    },
+    onTabClick (key) {
       this.shouldRefreshObjs = {}
     }
   }

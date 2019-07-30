@@ -32,7 +32,7 @@ const router = new Router({
     },
     {
       path: '/customer/home',
-      component: () => import('@/views/user/UserHome')
+      component: () => import('@/views/customer/UserHome')
     }
   ]
 })

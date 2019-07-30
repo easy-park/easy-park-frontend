@@ -14,7 +14,7 @@
 
 <script>
 import OrderList from './UserOrders'
-import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/user/user-order'
+import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/customer/user-order'
 import { PARKED, FETCHING, FETCHED, PLACED, RECEIVED } from '@/api/clerk/order-status'
 import { setInterval, clearInterval } from 'timers'
 

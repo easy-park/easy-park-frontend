@@ -9,7 +9,7 @@
 
 <script>
 import OrderList from './UserOrders'
-import { loadHistoryOrders } from '@/api/user/user-order.js'
+import { loadHistoryOrders } from '@/api/customer/user-order.js'
 import OrderDetail from '@/components/OrderDetail'
 export default {
   name: 'historyOrders',
