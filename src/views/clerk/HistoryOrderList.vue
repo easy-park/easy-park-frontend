@@ -1,8 +1,8 @@
 <template>
   <div>
-    <order-list :btnName="() => '详细信息'" :orders="historyOrders" :btnCallback = "orderInfo"></order-list>
+    <OrderList :btnName="() => '详细信息'" :orders="historyOrders" :btnCallback = "orderInfo"/>
     <a-modal v-model="visible" title="详细信息" :footer="null" destroyOnClose>
-      <order-detail :order='order'></order-detail>
+      <OrderDetail :order='order'/>
     </a-modal>
   </div>
 </template>

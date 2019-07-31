@@ -1,12 +1,11 @@
 <template>
-  <order-list :btnName="mapBtnName" :orders="unfinishedOrders" :btnCallback = "fetchCar" :parkingBoyStatus="parkingBoyStatus"></order-list>
+  <order-list :btnName="mapBtnName" :orders="unfinishedOrders" :btnCallback = "fetchCar"></order-list>
 </template>
 
 <script>
 import OrderList from '@/components/OrderList'
 import { loadUnfinishedOrders, fetchCar } from '@/api/clerk/clerk-home'
 import { PARKED, FETCHING } from '@/api/clerk/order-status'
-import { BUSY } from '@/api/clerk/clerk-status'
 import { websocket } from '@/mixins/websocket'
 
 export default {
@@ -23,7 +22,6 @@ export default {
   data () {
     return {
       unfinishedOrders: [],
-      parkingBoyStatus: BUSY,
       isRefreshing: false
     }
   },
@@ -52,7 +50,6 @@ export default {
     },
     fetchCar (order) {
       fetchCar(order.id).then(res => {
-        this.parkingBoyStatus = BUSY
         const index = this.unfinishedOrders.findIndex(v => v.id === order.id)
         this.unfinishedOrders.splice(index, 1)
       })
