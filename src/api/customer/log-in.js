@@ -22,7 +22,7 @@ function logOut () {
 
 function getUserInfo () {
   return request({
-    url: 'customer/userInfo',
+    url: 'customer',
     method: 'GET'
   })
 }
