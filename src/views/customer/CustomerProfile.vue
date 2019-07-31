@@ -45,7 +45,7 @@ export default {
   methods: {
     handleLogout () {
       if (logOut()) {
-        this.$router.push('/clerk/login')
+        this.$router.push('/?role=customer')
       }
     }
   }
