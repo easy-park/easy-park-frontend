@@ -1,5 +1,6 @@
 import { request } from '@/util/request'
 import { PLACED, COMPLETED, FETCHED } from './order-status'
+import { sendMessage } from '@/api/customer/websocket'
 
 function loadAvailableOrders () {
   return request({
@@ -29,6 +30,9 @@ function fetchCar (id) {
     url: `parkingOrders/${id}`,
     method: 'PUT',
     params: { status: FETCHED }
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 

@@ -11,8 +11,11 @@
 import OrderList from './UserOrders'
 import { loadHistoryOrders } from '@/api/customer/user-order.js'
 import OrderDetail from '@/components/OrderDetail'
+import { websocket } from '@/mixins/websocket'
+
 export default {
   name: 'historyOrders',
+  mixins: [ websocket ],
   components: { OrderList, OrderDetail },
   props: {
     refresh: {
@@ -53,6 +56,9 @@ export default {
     orderInfo (order) {
       this.visible = true
       this.order = order
+    },
+    refreshData () { // 重写 websocket (mixins) 的方法
+      this.loadHistoryOrders()
     }
   }
 }
