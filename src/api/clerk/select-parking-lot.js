@@ -1,5 +1,6 @@
 import { request } from '@/util/request'
 import { PARKED } from './order-status'
+import { sendMessage } from '@/api/customer/websocket'
 
 function loadClerkParkingLots () {
   return request({
@@ -13,6 +14,9 @@ function receiptOrder (params) {
     url: 'parkingOrders',
     method: 'GET',
     params
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 
@@ -28,6 +32,9 @@ function parkedCar (orderId) {
     url: `parkingOrders/${orderId}`,
     method: 'PUT',
     params: { status: PARKED }
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 
