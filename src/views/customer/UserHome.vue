@@ -35,6 +35,7 @@
           <span>我的</span>
         </div>
         <div class="content">
+          <CustomerProfile />
         </div>
       </a-tab-pane>
     </a-tabs>
@@ -45,10 +46,11 @@
 import ParkCar from './ParkCar'
 import FetchCar from './FetchCar'
 import HistoryOrders from './HistoryOrders'
+import CustomerProfile from './CustomerProfile'
 const TITLES = ['停车', '取车', '历史', '我的']
 export default {
   name: 'user-home',
-  components: { ParkCar, FetchCar, HistoryOrders },
+  components: { ParkCar, FetchCar, HistoryOrders, CustomerProfile },
   data () {
     return {
       defaultActiveKey: '0',

@@ -33,6 +33,10 @@ const router = new Router({
     {
       path: '/customer/home',
       component: () => import('@/views/customer/UserHome')
+    },
+    {
+      path: '/customer/profile',
+      component: () => import('@/views/customer/CustomerProfile')
     }
   ]
 })

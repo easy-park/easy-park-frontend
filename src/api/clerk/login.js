@@ -17,6 +17,15 @@ function login (body) {
   })
 }
 
+function logout () {
+  Cookies.remove('token')
+  if (Cookies.get('token') === undefined) {
+    return true
+  }
+  return false
+}
+
 export {
-  login
+  login,
+  logout
 }

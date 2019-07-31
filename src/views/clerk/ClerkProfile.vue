@@ -14,11 +14,17 @@
         </div>
       </a-card-meta>
     </a-card>
+    <a-row>
+      <a-col :span="24">
+        <a-button type="danger" style="width:100%; margin-top:20px; height:60px" @click="handleLogout">退出登录</a-button>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
 import { IDLE, BUSY } from '@/api/clerk/clerk-status'
+import { logout } from '@/api/clerk/login'
 import { loadClerkProfile } from '@/api/clerk/clerk-profile'
 
 export default {
@@ -68,6 +74,11 @@ export default {
       }).finally(() => {
         this.isRefreshing = false
       })
+    },
+    handleLogout () {
+      if (logout()) {
+        this.$router.push('/clerk/login')
+      }
     }
   }
 }

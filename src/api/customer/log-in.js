@@ -12,6 +12,23 @@ function logIn (body) {
   })
 }
 
+function logOut () {
+  Cookies.remove('token')
+  if (Cookies.get('token') === undefined) {
+    return true
+  }
+  return false
+}
+
+function getUserInfo () {
+  return request({
+    url: 'customer/userInfo',
+    method: 'GET'
+  })
+}
+
 export {
-  logIn
+  logIn,
+  logOut,
+  getUserInfo
 }
