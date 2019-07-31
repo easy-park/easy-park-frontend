@@ -48,7 +48,7 @@ export default {
       callback(rule.message)
     },
     handleSubmit  (e) {
-      e.preventDefault();
+      e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           parkCar(values.carNumber).then(res => {

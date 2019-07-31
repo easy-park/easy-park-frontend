@@ -17,9 +17,11 @@ import OrderList from './UserOrders'
 import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/customer/user-order'
 import { PARKED, FETCHING, FETCHED, PLACED, RECEIVED } from '@/api/clerk/order-status'
 import { setInterval, clearInterval } from 'timers'
+import { websocket } from '@/mixins/websocket'
 
 export default {
   name: 'FetchCar',
+  mixins: [ websocket ],
   components: { OrderList },
   props: {
     refresh: {
@@ -102,6 +104,9 @@ export default {
           clearInterval(timer)
         }
       }, 1000)
+    },
+    refreshData () { // 重写 websocket (mixins) 的方法
+      this.loadUnfinishedOrders()
     }
   }
 }

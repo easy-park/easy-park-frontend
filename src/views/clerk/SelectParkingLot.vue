@@ -2,6 +2,9 @@
   <div id="select">
     <a-layout>
       <title-header :showLeftButton="true">停车地点</title-header>
+      <a-skeleton :loading="!order" active :paragraph="{rows: 6, width: '100%'}" :title="false">
+        <order-detail :order="order"></order-detail>
+      </a-skeleton>
       <a-layout-content style="background-color: white">
         <div style="margin-top: 30px">
           <a-select placeholder="选择停车场" style="width: 90%" size="large" defaultActiveFirstOption @change="onSelectChange">
@@ -14,21 +17,19 @@
             </a-select-option>
           </a-select>
         </div>
-        <div style="margin-top: 100px">
-          <a-button type="primary" style="width: 80%;height: 50px" @click="receiptOrder">开始停车</a-button>
+        <div style="margin-top: 30px">
+          <a-button
+            type="primary"
+            @click="onBtnClick"
+            size="large"
+            :isBtnLoading="isParkingLotSelected"
+          >{{ btnText }}</a-button>
         </div>
       </a-layout-content>
     </a-layout>
-    <a-modal v-model="visible" title="详细信息" destroyOnClose>
-      <order-detail :order='order'></order-detail>
-      <template slot="footer">
-        <a-button key="submit" type="primary" @click="onParkedCar">
-          完成停车
-        </a-button>
-      </template>
-    </a-modal>
   </div>
 </template>
+
 <script>
 import OrderDetail from '@/components/OrderDetail'
 import TitleHeader from '@/components/clerk/TitleHeader'
@@ -40,43 +41,55 @@ export default {
   data () {
     return {
       parkingLots: [],
-      selectedParkingLot: undefined,
-      visible: false,
-      order: {}
+      selectedParkingLot: null,
+      isParkingLotSelected: false,
+      order: null,
+      isBtnLoading: false
+    }
+  },
+  computed: {
+    btnText () {
+      return this.isParkingLotSelected ? '完成停车' : '选择该停车场'
     }
   },
   beforeMount () {
-    loadClerkParkingLots()
-      .then(res => {
-        this.parkingLots = res.data
-      })
-    loadOrder(this.$route.params.orderId)
-      .then(res => {
-        this.order = res.data
-      })
+    loadClerkParkingLots().then(res => {
+      this.parkingLots = res.data
+    })
+    loadOrder(this.$route.params.orderId).then(res => {
+      this.order = res.data
+    })
   },
   methods: {
-    goBack () {
-      this.$router.back()
-    },
     onSelectChange (parkingLotIndex) {
-      this.selectedParkingLot = this.parkingLots[parkingLotIndex]
+      const parkingLot = this.parkingLots[parkingLotIndex]
+      this.$set(this.order, 'parkingLot', parkingLot)
+      this.selectedParkingLot = parkingLot
     },
-    receiptOrder () {
-      receiptOrder({
-        parkingOrderId: this.$route.params.orderId,
-        parkingLotId: this.selectedParkingLot.id
-      }).then(res => {
-        this.order = res.data
-        this.visible = true
-      })
-    },
-    onParkedCar () {
-      parkedCar(this.$route.params.orderId)
-        .then(res => {
-          this.visible = false
-          this.$router.back()
+    onBtnClick () {
+      if (!this.isParkingLotSelected) {
+        this.isBtnLoading = true
+        receiptOrder({
+          parkingOrderId: this.$route.params.orderId,
+          parkingLotId: this.selectedParkingLot.id
+        }).then(res => {
+          this.isParkingLotSelected = true
+          this.order = res.data
+        }).catch(err => {
+          this.$message.error(err.msg)
+        }).finally(() => {
+          this.isBtnLoading = false
         })
+      } else {
+        this.isBtnLoading = true
+        parkedCar(this.$route.params.orderId).then(res => {
+          this.$router.back()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        }).finally(() => {
+          this.isBtnLoading = false
+        })
+      }
     }
   }
 }

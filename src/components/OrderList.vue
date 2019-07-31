@@ -24,16 +24,14 @@
 
 <script>
 import { formatDate } from '@/util/datetime'
-import { FETCHING, PLACED, COMPLETED } from '@/api/clerk/order-status'
+import { PARKED } from '@/api/clerk/order-status'
 
 export default {
   name: 'orderList',
   props: {
     btnCallback: Function,
     btnName: Function,
-    orders: Array,
-    parkingBoyStatus: Number,
-    userStatus: Boolean
+    orders: Array
   },
   filters: {
     toDate (datetimeString) {
@@ -42,13 +40,10 @@ export default {
   },
   methods: {
     isDisabled (order) {
-      if (this.userStatus) {
-        return false
+      if (order.status === PARKED) {
+        return true
       }
-      if (order.status === FETCHING || order.status === PLACED || order.status === COMPLETED) {
-        return false
-      }
-      return true
+      return false
     }
   }
 }
