@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { parkCar } from '@/api/user/user-order'
+import { parkCar } from '@/api/customer/user-order'
 import { formatDate } from '@/util/datetime'
 export default {
   name: 'ParkCar',
