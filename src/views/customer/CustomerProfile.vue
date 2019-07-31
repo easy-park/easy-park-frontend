@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { logout, getUserInfo } from '@/api/customer/log-in'
+import { logOut, getUserInfo } from '@/api/customer/log-in'
 
 export default {
   props: {
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     handleLogout () {
-      if (logout()) {
+      if (logOut()) {
         this.$router.push('/clerk/login')
       }
     }
