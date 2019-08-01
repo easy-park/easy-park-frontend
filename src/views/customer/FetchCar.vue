@@ -3,8 +3,7 @@
     <OrderList :btnName="mapBtnName" :orders="orders" :btnCallback = "fetchCar"/>
     <a-alert
       v-if="show"
-      message="Success Tips"
-      :description="msg"
+      :message="msg"
       type="success"
       showIcon
       closable

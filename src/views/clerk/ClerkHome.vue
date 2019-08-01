@@ -1,7 +1,13 @@
 <template>
   <a-layout class="clerk-home">
     <title-header>{{ title }}</title-header>
-    <a-tabs class="tabs" :tabBarGutter="0" :defaultActiveKey="defaultActiveKey" tabPosition="bottom" @tabClick="onTabClick" @change="onTabChange">
+    <a-tabs
+      class="tabs"
+      :tabBarGutter="0"
+      :defaultActiveKey="defaultActiveKey"
+      tabPosition="bottom"
+      @tabClick="onTabClick"
+      @change="onTabChange">
       <a-tab-pane :key="0">
         <div slot="tab" class="tab-slot">
           <a-icon type="home"/>
@@ -93,6 +99,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+  background: white;
 }
 
 .content {

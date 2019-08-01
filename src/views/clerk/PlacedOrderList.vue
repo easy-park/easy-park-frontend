@@ -48,9 +48,10 @@ export default {
       if (order.status === 1) {
         setParkingBoyToOrder(order).then(res => {
           this.$router.push(`/select/${order.id}`)
-          this.refreshData()
         }).catch(err => {
           this.$message.error(err.msg)
+        }).finally(() => {
+          this.refreshData()
         })
       }
       if (order.status === 2) {
