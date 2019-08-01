@@ -49,10 +49,18 @@ function loadHistoryOrders () {
   })
 }
 
+function loadCarNumbers () {
+  return request({
+    url: '/unrepeatcarnumbers',
+    method: 'GET'
+  })
+}
+
 export {
   loadUnfinishedOrders,
   fetchCar,
   parkCar,
   finishOrder,
-  loadHistoryOrders
+  loadHistoryOrders,
+  loadCarNumbers
 }

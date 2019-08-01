@@ -57,7 +57,7 @@ export default {
       this.order = order
     },
     refreshData () { // 重写 websocket (mixins) 的方法
-      this.loadOrders()
+      this.loadHistoryOrders()
     }
   }
 }
