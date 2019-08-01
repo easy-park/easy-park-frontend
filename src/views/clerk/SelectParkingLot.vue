@@ -12,7 +12,7 @@
               v-for="(parkingLot, index) in parkingLots"
               v-bind:key="parkingLot.id"
               :value="index"
-              :disabled="parkingLot.available <= 0">
+              :disabled="parkingLot.available <= 0 || parkingLot.status == 0">
               {{ `${parkingLot.name} (${parkingLot.available})` }}
             </a-select-option>
           </a-select>
