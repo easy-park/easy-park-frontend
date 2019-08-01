@@ -28,6 +28,10 @@
       <a-col :span="8" class="align-right">停车员：</a-col>
       <a-col :span="16" class="align-left">{{ order.parkingBoy.name }}</a-col>
     </a-row>
+    <a-row v-show="!!order.price" class="row" type="flex" justify="space-around" align="middle">
+      <a-col :span="8" class="align-right">价格：</a-col>
+      <a-col :span="16" class="align-left">{{ order.price }}</a-col>
+    </a-row>
   </div>
 </template>
 
