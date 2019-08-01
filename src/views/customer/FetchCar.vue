@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OrderList :btnName="mapBtnName" :orders="orders" :btnCallback = "fetchCar"/>
+    <OrderList :btnName="mapBtnName" :orders="orders" :btnCallback="fetchCar"/>
     <a-alert
       v-if="show"
       :message="msg"
@@ -8,6 +8,17 @@
       showIcon
       closable
     />
+    <a-modal
+      title="支付订单"
+      :visible="visible"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    >
+      <p>车牌号：{{ clickOrder.carNumber }}</p>
+      <p>停车时间：{{ clickOrder.startTime | toDate }}</p>
+      <p>取车时间：{{ clickOrder.endTime | toDate }}</p>
+      <p>待支付：{{ clickOrder.price }} 元</p>
+    </a-modal>
   </div>
 </template>
 
@@ -17,6 +28,7 @@ import { loadUnfinishedOrders, fetchCar, finishOrder } from '@/api/customer/user
 import { PARKED, FETCHING, FETCHED, PLACED, RECEIVED } from '@/api/clerk/order-status'
 import { setInterval, clearInterval } from 'timers'
 import { websocket } from '@/mixins/websocket'
+import { formatDate } from '@/util/datetime'
 
 export default {
   name: 'FetchCar',
@@ -30,12 +42,19 @@ export default {
       }
     }
   },
+  filters: {
+    toDate (datetimeString) {
+      return datetimeString ? formatDate(new Date(datetimeString), 'YYYY-MM-DD hh:mm') : ''
+    }
+  },
   data () {
     return {
       orders: [],
       show: false,
       msg: '',
-      autoTime: 0
+      autoTime: 0,
+      visible: false,
+      clickOrder: Object
     }
   },
   mounted () {
@@ -68,12 +87,8 @@ export default {
           this.orders.splice(index, 1, res.data)
         })
       } else {
-        finishOrder(order.id).then(res => {
-          this.getShowTime()
-          this.msg = '完成订单!'
-          const index = this.orders.findIndex(e => e.id === order.id)
-          this.orders.splice(index, 1)
-        })
+        this.clickOrder = order
+        this.visible = true
       }
     },
     mapBtnName (order) {
@@ -106,6 +121,18 @@ export default {
     },
     refreshData () { // 重写 websocket (mixins) 的方法
       this.loadUnfinishedOrders()
+    },
+    handleOk () {
+      finishOrder(this.clickOrder.id).then(res => {
+        this.visible = false
+        this.getShowTime()
+        this.msg = '完成订单!'
+        const index = this.orders.findIndex(e => e.id === this.clickOrder.id)
+        this.orders.splice(index, 1)
+      })
+    },
+    handleCancel () {
+      this.visible = false
     }
   }
 }
