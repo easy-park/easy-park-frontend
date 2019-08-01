@@ -1,5 +1,8 @@
 <template>
-  <order-list :btnName="(order) => order.status === 1 ? '抢单' : '停车'" :orders="orders" :btnCallback = "getOrder"></order-list>
+  <div>
+    <a-alert v-show="isShowAlert" message="你有一个订单需要处理" banner></a-alert>
+    <order-list :btnName="(order) => order.status === 1 ? '抢单' : '停车'" :orders="orders" :btnCallback = "getOrder"></order-list>
+  </div>
 </template>
 
 <script>
@@ -22,6 +25,11 @@ export default {
     return {
       orders: [],
       isRefreshing: false
+    }
+  },
+  computed: {
+    isShowAlert () {
+      return this.orders.some(order => order.status === 2)
     }
   },
   beforeMount () {
