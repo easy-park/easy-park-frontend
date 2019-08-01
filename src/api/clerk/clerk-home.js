@@ -41,6 +41,9 @@ function setParkingBoyToOrder (order) {
     url: 'parkingOrders',
     method: 'PUT',
     data: { id: order.id }
+  }).then(res => {
+    sendMessage()
+    return res
   })
 }
 

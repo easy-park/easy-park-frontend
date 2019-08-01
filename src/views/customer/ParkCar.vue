@@ -4,13 +4,11 @@
       <a-form-item
         label="车牌号"
       >
-        <a-input
-          v-decorator="[
+        <a-auto-complete :dataSource="carNumbers" v-decorator="[
             'carNumber',
             {rules: [{ required: true, message: '请输入车牌号' }, { message: '请输入正确车牌号', validator: checkCarNumber }]}
           ]"
-          placeholder="请输入车牌号"
-        />
+          placeholder="请输入车牌号"/>
       </a-form-item>
       <a-button
         type="primary"
@@ -27,7 +25,7 @@
 </template>
 
 <script>
-import { parkCar } from '@/api/customer/user-order'
+import { parkCar, loadCarNumbers } from '@/api/customer/user-order'
 import { formatDate } from '@/util/datetime'
 export default {
   name: 'ParkCar',
@@ -36,8 +34,14 @@ export default {
       carNumber: '',
       visible: false,
       order: {},
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      carNumbers: []
     }
+  },
+  beforeMount () {
+    loadCarNumbers().then(res => {
+      this.carNumbers = res.data
+    })
   },
   methods: {
     checkCarNumber (rule, carNumber, callback) {
