@@ -1,5 +1,5 @@
 <template>
-  <order-list :btnName="() => '抢单'" :orders="orders" :btnCallback = "getOrder"></order-list>
+  <order-list :btnName="(order) => order.status === 1 ? '抢单' : '停车'" :orders="orders" :btnCallback = "getOrder"></order-list>
 </template>
 
 <script>
@@ -45,12 +45,17 @@ export default {
       })
     },
     getOrder (order) {
-      setParkingBoyToOrder(order).then(res => {
+      if (order.status === 1) {
+        setParkingBoyToOrder(order).then(res => {
+          this.$router.push(`/select/${order.id}`)
+          this.refreshData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
+      if (order.status === 2) {
         this.$router.push(`/select/${order.id}`)
-      }).catch(err => {
-        this.$message.error(err.msg)
-        this.refreshData()
-      })
+      }
     },
     refreshData () { // 重写 websocket (mixins) 的方法
       this.loadOrders()
