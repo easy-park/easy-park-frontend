@@ -52,7 +52,7 @@
 <script>
 import { EMAIL as EMAIL_REGEXP, MOBILE_PHONE as MOBOILE_PHONE_REGEXP } from '@/util/regexp'
 import { login } from '@/api/clerk/login'
-import { BAD_REQUEST } from '@/api/status'
+import { BAD_REQUEST, FROZEN_ACCOUNT, UNKNOWN_ERROR } from '@/api/status'
 
 export default {
   data () {
@@ -74,8 +74,15 @@ export default {
             this.$message.success('登录成功')
             this.$router.push('/clerk/home')
           }).catch((err) => {
-            if (err.status === BAD_REQUEST) {
-              this.$message.error('用户名或密码错误')
+            switch (err.status) {
+              case BAD_REQUEST.STATUS:
+                this.$message.error(BAD_REQUEST.MESSAGE)
+                break
+              case FROZEN_ACCOUNT.STATUS:
+                this.$message.error(FROZEN_ACCOUNT.MESSAGE)
+                break
+              default:
+                this.$message.error(UNKNOWN_ERROR.MESSAGE)
             }
           }).finally(() => {
             this.isLoading = false
