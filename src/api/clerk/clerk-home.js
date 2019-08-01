@@ -12,7 +12,7 @@ function loadAvailableOrders () {
 
 function loadHistoryOrders () {
   return request({
-    url: 'parkingOrders',
+    url: 'parkingHistoryOrders',
     method: 'GET',
     params: { status: COMPLETED }
   })
