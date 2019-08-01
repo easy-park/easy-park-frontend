@@ -56,7 +56,7 @@ export default {
     },
     mapBtnName (order) {
       if (order.status === PARKED) {
-        return '已停'
+        return '待取车'
       }
       if (order.status === FETCHING) {
         return '取车'
